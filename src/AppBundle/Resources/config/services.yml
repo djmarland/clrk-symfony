@@ -1,0 +1,13 @@
+services:
+
+  app.listener.preexecute:
+      class: AppBundle\Resources\Listener
+      tags:
+          - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+
+  app.services.settings:
+      class: AppBundle\Service\SettingsService
+      arguments: [@doctrine.orm.default_entity_manager,@app.mapper.factory]
+
+  app.mapper.factory:
+      class: AppBundle\Mapper\MapperFactory

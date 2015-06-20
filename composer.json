@@ -17,9 +17,13 @@
         "symfony/monolog-bundle": "~2.4",
         "sensio/distribution-bundle": "~4.0",
         "sensio/framework-extra-bundle": "~3.0,>=3.0.2",
-        "incenteev/composer-parameter-handler": "~2.0"
+        "incenteev/composer-parameter-handler": "~2.0",
+        "doctrine/migrations": "1.0.*@dev",
+        "doctrine/doctrine-migrations-bundle": "1.0.*"
     },
     "require-dev": {
+        "phpunit/phpunit": "~4",
+        "squizlabs/php_codesniffer": "~2",
         "sensio/generator-bundle": "~2.3"
     },
     "scripts": {
@@ -46,7 +50,7 @@
         ]
     },
     "config": {
-        "bin-dir": "bin"
+        "bin-dir": "vendor/bin"
     },
     "extra": {
         "symfony-app-dir": "app",

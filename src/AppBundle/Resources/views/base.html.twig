@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}Dashboard{% endblock %} - {{ settings.applicationName }}</title>
+
+    <link rel="stylesheet" href="/global.css" />
+</head>
+<body>
+{% block header %}
+    <div class="header">{{ settings.applicationName }}</div>
+<hr />
+    <div>Hello</div>
+    <nav>
+        <ul>
+            <li><a href="{{ path('home') }}">Home</a></li>
+        </ul>
+    </nav>
+<hr />
+<div class="content">
+    {% endblock %}
+    {% block body %}{% endblock %}
+    {% block footer %}
+</div>
+{% endblock %}
+</body>
+</html>

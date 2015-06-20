@@ -34,4 +34,8 @@
             </exclude>
         </whitelist>
     </filter>
+    <logging>
+        <log type="coverage-html" target="../html/coverage" lowUpperBound="35"
+             highLowerBound="90"/>
+    </logging>
 </phpunit>
