@@ -66,4 +66,32 @@ abstract class Service
     {
         $this->mapperFactory = $mapperFactory;
     }
+
+    protected function calculateOffset(
+        $limit,
+        $page
+    ) {
+        return ($limit * ($page-1));
+    }
+
+    public function getEmptyResult()
+    {
+        return $this->getResult([],0);
+    }
+
+    public function getResult($data, $total = null)
+    {
+        if (!is_array($data)) {
+            $data = [$data];
+        }
+
+        $queryResult = new ServiceResult($data, $total);
+        $domainModels = array();
+        foreach ($queryResult->getItems() as $item) {
+            $mapper = $this->mapperFactory->getMapper($item);
+            $domainModels[] = $mapper->getDomainModel($item);
+        }
+        $queryResult->setDomainModels($domainModels);
+        return $queryResult;
+    }
 }

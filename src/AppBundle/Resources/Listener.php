@@ -1,7 +1,7 @@
 <?php
 namespace AppBundle\Resources;
 
-use AppBundle\Controller\InitializableControllerInterface;
+use AppBundle\Controller\ControllerInterface;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 
 class Listener
@@ -22,7 +22,7 @@ class Listener
             return;
         }
 
-        if ($controllerObject instanceof InitializableControllerInterface) {
+        if ($controllerObject instanceof ControllerInterface) {
             // this method is the one that is part of the interface.
             $controllerObject->initialize($event->getRequest());
         }

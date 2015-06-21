@@ -12,25 +12,27 @@ abstract class Entity
      */
     protected $id;
 
-    public function getId()
-    {
-        return $this->id;
-    }
-
     /**
      * @ORM\Column(type="datetime", nullable=false)
      */
     protected $created_at;
 
-    public function getCreatedAt()
-    {
-        return $this->created_at;
-    }
-
     /**
      * @ORM\Column(type="datetime", nullable=false)
      */
     protected $updated_at;
+
+
+    /** Getters/Setters */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    public function getCreatedAt()
+    {
+        return $this->created_at;
+    }
 
     public function getUpdatedAt()
     {
@@ -42,7 +44,7 @@ abstract class Entity
      *
      * @ORM\PrePersist
      */
-    public function setCreatedAt()
+    public function onCreate()
     {
         $this->created_at = new \DateTime();
         $this->updated_at = new \DateTime();
@@ -53,7 +55,7 @@ abstract class Entity
      *
      * @ORM\PreUpdate
      */
-    public function setUpdatedAt()
+    public function onUpdate()
     {
         $this->updated_at = new \DateTime();
     }

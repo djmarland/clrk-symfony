@@ -1,3 +1,11 @@
 home:
-    path:      /
-    defaults:  { _controller: AppBundle:Home:index }
+  path:     /
+  defaults: { _controller: AppBundle:Home:index }
+
+users_list:
+  path:     /users
+  defaults: { _controller: AppBundle:Users:list }
+
+users_new:
+  path:     /users/new
+  defaults: { _controller: AppBundle:Users:new }

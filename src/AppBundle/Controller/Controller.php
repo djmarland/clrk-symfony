@@ -3,11 +3,12 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Presenter\MasterPresenter;
+use AppBundle\Presenter\Organism\Pagination\PaginationPresenter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 
-class Controller extends BaseController implements InitializableControllerInterface
+class Controller extends BaseController implements ControllerInterface
 {
     /**
      * @var User
@@ -25,11 +26,17 @@ class Controller extends BaseController implements InitializableControllerInterf
     public $masterViewPresenter;
 
     /**
+     * @var Request
+     */
+    public $request;
+
+    /**
      * Setup common tasks for a controller
      * @param Request $request
      */
     public function initialize(Request $request)
     {
+        $this->request = $request;
         $this->masterViewPresenter = new MasterPresenter();
         $this->getSettings();
     }
@@ -55,16 +62,16 @@ class Controller extends BaseController implements InitializableControllerInterf
         $this->toView('settings', $settings);
     }
 
-    protected function getCurrentPage($request)
+    protected function getCurrentPage()
     {
-        $page = $request->get('page', 1);
+        $page = $this->request->get('page', 1);
 
         // must be an integer string
         if (
             strval(intval($page)) !== strval($page) ||
             $page < 1
         ) {
-            $this->app->abort(404, 'No such page value');
+            throw new HttpException(404, 'No such page value');
         }
         return (int) $page;
     }
@@ -87,10 +94,10 @@ class Controller extends BaseController implements InitializableControllerInterf
         );
 
         if (!$pagination->isValid()) {
-            $this->app->abort(404, 'There are not this many pages');
+            throw new HttpException(404, 'There are not this many pages');
         }
 
-        $this->set('pagination', $pagination);
+        $this->toView('pagination', $pagination);
     }
 
     /**

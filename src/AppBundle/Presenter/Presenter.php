@@ -113,7 +113,7 @@ abstract class Presenter
      */
     public function getTemplatePath()
     {
-        return $this->getClassPath() . $this->templateVariantSuffix . self::TWIG_SUFFIX;
+        return '@' . $this->getClassPath() . $this->templateVariantSuffix . self::TWIG_SUFFIX;
     }
 
     /**

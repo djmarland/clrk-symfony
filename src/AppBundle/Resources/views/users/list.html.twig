@@ -1,0 +1,16 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block body %}
+    <h1>Users</h1>
+
+    <a href="{{ path('users_new') }}">New</a>
+
+    <p>Total: {{ total }}</p>
+    <ul>
+        {% for user in users %}
+            <li><a href="/users/{{ user.key }}">{{ user.name }} - {{ user.email }}</a></li>
+        {% endfor %}
+    </ul>
+
+    {% include pagination.templatePath with pagination.vars only %}
+{% endblock %}

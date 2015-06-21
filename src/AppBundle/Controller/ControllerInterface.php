@@ -7,7 +7,7 @@ namespace AppBundle\Controller;
  */
 use Symfony\Component\HttpFoundation\Request;
 
-interface InitializableControllerInterface
+interface ControllerInterface
 {
     public function initialize(Request $request);
 }

@@ -15,13 +15,15 @@ class Settings extends Entity
      */
     private $active_status = 0;
 
+    /** @ORM\Column(type="string", length=255, nullable=false) */
+    private $application_name;
+
+
+    /** Getters/Setters */
     public function getActiveStatus()
     {
         return $this->active_status;
     }
-
-    /** @ORM\Column(type="string", length=255, nullable=false) */
-    private $application_name;
 
     public function getApplicationName()
     {

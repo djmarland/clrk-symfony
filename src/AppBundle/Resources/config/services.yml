@@ -9,5 +9,9 @@ services:
       class: AppBundle\Service\SettingsService
       arguments: [@doctrine.orm.default_entity_manager,@app.mapper.factory]
 
+  app.services.users:
+      class: AppBundle\Service\UsersService
+      arguments: [@doctrine.orm.default_entity_manager,@app.mapper.factory]
+
   app.mapper.factory:
       class: AppBundle\Mapper\MapperFactory

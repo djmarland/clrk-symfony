@@ -1,0 +1,27 @@
+{% if pagination.showStatus %}
+    <p>Showing {{ pagination.start }} - {{ pagination.end }} of {{ pagination.total }}</p>
+{% endif %}
+{% if pagination.isActive %}
+    <nav>
+        <ol class="pagination">
+            <li>{%
+                if pagination.prevUrl %}
+                    <a href="{{ pagination.prevUrl }}">
+                        Previous
+                    </a>
+                {% else %}
+                    Previous
+                {% endif
+                %}</li>
+            <li>{%
+                if pagination.nextUrl %}
+                    <a href="{{ pagination.nextUrl }}">
+                        Next
+                    </a>
+                {% else %}
+                    Next
+                {% endif
+                %}</li>
+        </ol>
+    </nav>
+{% endif %}

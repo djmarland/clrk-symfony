@@ -107,12 +107,12 @@ abstract class Entity
     }
 
     /**
-     * @var \App\Client\Database\Entity\Entity
+     * @var \DatabaseBundle\Entity\Entity
      */
     private $ormEntity;
 
     /**
-     * @param \App\Client\Database\Entity\Entity $ormEntity
+     * @param \DatabaseBundle\Entity\Entity $ormEntity
      */
     public function setOrmEntity($ormEntity)
     {
@@ -120,7 +120,7 @@ abstract class Entity
     }
 
     /**
-     * @return \App\Client\Database\Entity\Entity $ormEntity
+     * @return \DatabaseBundle\Entity\Entity$ormEntity
      */
     public function getOrmEntity()
     {
