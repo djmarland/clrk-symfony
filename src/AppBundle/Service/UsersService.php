@@ -2,8 +2,25 @@
 
 namespace AppBundle\Service;
 
-class UsersService extends Service
+use AppBundle\Domain\Entity\User;
+use AppBundle\Domain\ValueObject\ID;
+use AppBundle\Domain\ValueObject\Key;
+
+class UsersService extends DatabaseService
 {
+
+    /**
+     * @param User $user
+     * @return User
+     */
+    public function createNewUser(
+        User $user
+    ) {
+        $id = $this->insert($user);
+        $user->setId(new ID($id));
+        return $user;
+    }
+
     /**
      * @param $limit
      * @param $page
@@ -56,10 +73,38 @@ class UsersService extends Service
         return $this->getResult($data);
     }
 
-    public function save($settings)
+    /**
+     * @param ID $id
+     * @return \AppBundle\Domain\Entity\User|null
+     */
+    public function findById(ID $id)
     {
-        $query = $this->getDatabaseQueryFactory()->createQuery('Settings');
-        $result = $query->save($settings);
-        return $result;
+        $entity = $this->getEntity('User')->findOneById((string) $id);
+        if ($entity) {
+            return $this->mapperFactory->getDomainModel($entity);
+        }
+        return null;
+    }
+
+    public function findByKey(Key $key)
+    {
+        $id = $key->getId();
+        return $this->findById($id);
+    }
+
+    /**
+     * @param $email
+     * @return \AppBundle\Domain\Entity\User|null
+     */
+    public function findByEmail($email)
+    {
+        $entity = $this->getEntity('User')
+            ->findOneBy([
+                'email' => $email
+            ]);
+        if ($entity) {
+            return $this->mapperFactory->getDomainModel($entity);
+        }
+        return null;
     }
 }

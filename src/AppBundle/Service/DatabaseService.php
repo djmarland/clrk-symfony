@@ -5,7 +5,7 @@ namespace AppBundle\Service;
 use AppBundle\Mapper\MapperFactory;
 use Doctrine\ORM\EntityManager;
 
-abstract class Service
+abstract class DatabaseService
 {
     /**
      * @param EntityManager $entityManager
@@ -93,5 +93,17 @@ abstract class Service
         }
         $queryResult->setDomainModels($domainModels);
         return $queryResult;
+    }
+
+    public function insert($domain)
+    {
+        $mapper = $this->mapperFactory->getMapper($domain);
+
+        $entity = $mapper->getOrmEntity($domain);
+
+        $this->entityManager->persist($entity);
+        $this->entityManager->flush();
+
+        return $entity->getId();
     }
 }

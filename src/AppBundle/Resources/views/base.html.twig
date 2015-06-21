@@ -17,6 +17,11 @@
         </ul>
     </nav>
 <hr />
+{% for flashMessage in app.session.flashbag.get('success') %}
+    <div class="messages__msg--success">
+        {{ flashMessage }}
+    </div>
+{% endfor %}
 <div class="content">
     {% endblock %}
     {% block body %}{% endblock %}

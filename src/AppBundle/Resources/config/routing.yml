@@ -9,3 +9,7 @@ users_list:
 users_new:
   path:     /users/new
   defaults: { _controller: AppBundle:Users:new }
+
+users_show:
+  path:     /users/{user_key}
+  defaults: { _controller: AppBundle:Users:show }

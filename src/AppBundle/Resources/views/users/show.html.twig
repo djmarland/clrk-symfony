@@ -1,0 +1,11 @@
+{% extends 'AppBundle::base.html.twig' %}
+
+{% block title %}{{ user.name }}{% endblock %}
+
+{% block body %}
+
+    <h1>{{ user.name }}</h1>
+    <p>E-mail: {{ user.email }}</p>
+    <p>Admin: {{ user.isAdmin }}</p>
+
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends 'AppBundle::base.html.twig' %}
+{% block title %}New User{% endblock %}
+
+{% block body %}
+    <h1>New User</h1>
+    {{ form_start(form) }}
+    {{ form_widget(form) }}
+    {{ form_end(form) }}
+{% endblock %}

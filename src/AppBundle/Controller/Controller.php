@@ -16,6 +16,11 @@ class Controller extends BaseController implements ControllerInterface
     protected $currentUser;
 
     /**
+     * @var
+     */
+    protected $settings;
+
+    /**
      * @var int
      */
     protected $currentPage = 1;
@@ -59,6 +64,7 @@ class Controller extends BaseController implements ControllerInterface
              throw new HttpException(202, $message);
         }
 
+        $this->settings = $settings;
         $this->toView('settings', $settings);
     }
 
@@ -130,5 +136,13 @@ class Controller extends BaseController implements ControllerInterface
     {
         $path = 'AppBundle:' . $template . '.html.twig';
         return $this->render($path, $this->masterViewPresenter->getData());
+    }
+
+    protected function renderEmail($viewPath, $mailData)
+    {
+        $viewPath = 'AppBundle:emails:' . $viewPath . '.html.twig';
+        $data = $this->masterViewPresenter->getData();
+        $data['email'] = $mailData;
+        return $this->renderView($viewPath, $data);
     }
 }
