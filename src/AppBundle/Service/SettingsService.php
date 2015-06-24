@@ -2,15 +2,17 @@
 
 namespace AppBundle\Service;
 
-class SettingsService extends DatabaseService
+class SettingsService extends Service
 {
     public function get()
     {
-        $entity = $this->getEntity('Settings')->findOneById(1);
-        if ($entity) {
-            $entity = $this->mapperFactory->getDomainModel($entity);
+        $result = $this->getQueryFactory()
+            ->createSettingsQuery()
+            ->get();
+        if ($result) {
+            return $result->getDomainModel();
         }
-        return $entity;
+        return null;
     }
 
 }

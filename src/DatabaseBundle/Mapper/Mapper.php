@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Mapper;
+namespace DatabaseBundle\Mapper;
 
 abstract class Mapper implements MapperInterface
 {

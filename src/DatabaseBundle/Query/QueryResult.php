@@ -1,12 +1,13 @@
 <?php
 
-namespace AppBundle\Service;
+namespace DatabaseBundle\Query;
 
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 /**
  * QueryInterface Interface
  */
-class ServiceResult
+class QueryResult
 {
 
     /**
@@ -27,10 +28,15 @@ class ServiceResult
     /**
      * @param $result
      */
-    public function __construct($result, $total)
+    public function __construct($result, $total = null)
     {
+        if (!is_array($result)) {
+            $result = [$result];
+        }
         $this->items = $result;
-        $this->total = (int) $total;
+        if (!is_null($total)) {
+            $this->total = (int)$total;
+        }
     }
 
     /**
@@ -71,7 +77,10 @@ class ServiceResult
      */
     public function getTotal()
     {
-        // @todo - if no total was requested, throw an exception
+        if (is_null($this->total)) {
+            // @todo - throw a better exception
+            throw new \Exception('Tried to call total when no count had been asked for');
+        }
         return $this->total;
     }
 

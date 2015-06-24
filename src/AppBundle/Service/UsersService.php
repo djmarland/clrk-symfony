@@ -6,7 +6,7 @@ use AppBundle\Domain\Entity\User;
 use AppBundle\Domain\ValueObject\ID;
 use AppBundle\Domain\ValueObject\Key;
 
-class UsersService extends DatabaseService
+class UsersService extends Service
 {
 
     /**

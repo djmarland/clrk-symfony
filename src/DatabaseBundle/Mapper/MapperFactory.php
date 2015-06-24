@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Mapper;
+namespace DatabaseBundle\Mapper;
 
 use DatabaseBundle\Entity\Settings as SettingsOrm;
 use DatabaseBundle\Entity\User as UserOrm;

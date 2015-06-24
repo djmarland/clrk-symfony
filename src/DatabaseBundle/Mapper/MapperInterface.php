@@ -1,5 +1,5 @@
 <?php
-namespace AppBundle\Mapper;
+namespace DatabaseBundle\Mapper;
 
 /**
  * Interface MapperInterface

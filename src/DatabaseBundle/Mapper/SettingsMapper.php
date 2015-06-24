@@ -1,6 +1,6 @@
 <?php
 
-namespace AppBundle\Mapper;
+namespace DatabaseBundle\Mapper;
 
 use AppBundle\Domain\Entity\Settings;
 use AppBundle\Domain\ValueObject\ID;
