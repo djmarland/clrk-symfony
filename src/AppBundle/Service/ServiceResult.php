@@ -1,20 +1,9 @@
 <?php
 
-namespace DatabaseBundle\Query;
+namespace AppBundle\Service;
 
-use Symfony\Component\Config\Definition\Exception\Exception;
-
-/**
- * QueryInterface Interface
- */
-class QueryResult
+class ServiceResult implements ServiceResultInterface
 {
-
-    /**
-     * @var
-     */
-    private $items;
-
     /**
      * @var
      */
@@ -23,28 +12,21 @@ class QueryResult
     /**
      * @var
      */
-    private $domainModels;
+    private $domainModels = [];
 
     /**
-     * @param $result
+     * @param $domainModels
+     * @param null $total
      */
-    public function __construct($result, $total = null)
+    public function __construct($domainModels, $total = null)
     {
-        if (!is_array($result)) {
-            $result = [$result];
+        if (!is_array($domainModels)) {
+            $domainModels = [$domainModels];
         }
-        $this->items = $result;
+        $this->domainModels = $domainModels;
         if (!is_null($total)) {
             $this->total = (int)$total;
         }
-    }
-
-    /**
-     * @param $items
-     */
-    public function setItems($items)
-    {
-        $this->items = $items;
     }
 
     /**
@@ -61,15 +43,6 @@ class QueryResult
     public function setDomainModels(array $models)
     {
         $this->domainModels = $models;
-    }
-
-    /**
-     * @return array
-     */
-    public function getItems()
-    {
-        // @todo - if no items were requested, throw an exception
-        return $this->items;
     }
 
     /**

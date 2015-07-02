@@ -49,7 +49,8 @@ class Controller extends BaseController implements ControllerInterface
     private function getSettings()
     {
         // get the initial app settings
-        $settings = $this->get('app.services.settings')->get();
+        $result = $this->get('app.services.settings')->get();
+        $settings = $result = $result->getDomainModel();
 
         if ($settings === null) {
             // if settings failed due to missing database: 404

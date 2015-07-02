@@ -5,7 +5,7 @@ namespace DatabaseBundle\Query;
 use DatabaseBundle\Mapper\MapperFactory;
 use Doctrine\ORM\EntityManager;
 
-class Query {
+abstract class Query {
 
     protected $entityManager;
 
@@ -25,32 +25,77 @@ class Query {
             ->getRepository('DatabaseBundle:' . $name);
     }
 
-    protected function calculateOffset(
-        $limit,
-        $page
-    ) {
-        return ($limit * ($page-1));
+    protected function getFromEntity($entity)
+    {
+        $result = $entity->findBy(
+            $this->by,
+            $this->sort,
+            $this->limit,
+            $this->offset
+        );
+        return $this->getDomainModels($result);
     }
 
-    public function getEmptyResult()
+    protected function countFromEntity($entity)
     {
-        return $this->getResult([],0);
+        $qb = $entity->createQueryBuilder('tbl');
+        $qb->select('count(tbl.id)');
+
+        $i = 1;
+        $params = [];
+        if (!empty($this->by)) {
+            foreach ($this->by as $key => $by) {
+                $qb->andWhere('tbl.' . $key . ' = ?' . $i);
+                $params[$i] = $by;
+                $i++;
+            }
+            $qb->setParameters($params);
+        }
+        return (int) $qb->getQuery()->getSingleScalarResult();
     }
 
-    public function getResult($data, $total = null)
+    protected $by = [];
+
+    protected $sort = ['id' => 'ASC'];
+
+    protected $limit = null;
+
+    protected $offset = null;
+
+    public function paginate($perPage, $page)
     {
-        if (!is_array($data)) {
-            $data = [$data];
+        $this->limit = $perPage;
+        $this->offset = ($perPage * ($page - 1));
+        return $this;
+    }
+
+    public function byId($id)
+    {
+        $this->by['id'] = $id;
+        return $this;
+    }
+
+    public function sortByCreationDate($direction = 'DESC')
+    {
+        $this->sort = ['created_at' => $direction];
+        return $this;
+    }
+
+    public function getDomainModels($items)
+    {
+        if (!$items) {
+            return null;
+        }
+        if (!is_array($items)) {
+            $items = [$items];
         }
 
-        $queryResult = new QueryResult($data, $total);
         $domainModels = array();
-        foreach ($queryResult->getItems() as $item) {
+        foreach ($items as $item) {
             $mapper = $this->mapperFactory->getMapper($item);
             $domainModels[] = $mapper->getDomainModel($item);
         }
-        $queryResult->setDomainModels($domainModels);
-        return $queryResult;
+        return $domainModels;
     }
 
     public function insert($domain)

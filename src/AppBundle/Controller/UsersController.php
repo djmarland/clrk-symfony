@@ -41,9 +41,10 @@ class UsersController extends Controller
     public function showAction(Request $request)
     {
         $key = $request->get('user_key');
-        $user = $this->get('app.services.users')
+        $result = $this->get('app.services.users')
             ->findByKey(new Key($key));
 
+        $user = $result->getDomainModel();
         if (!$user) {
             throw new HttpException(404, 'User ' . $key . ' does not exist.');
         }
@@ -68,8 +69,8 @@ class UsersController extends Controller
                 }
 
                 // see if a user with that e-mail address already exists
-                $previousUser = $this->get('app.services.users')->findByEmail($email);
-                if ($previousUser) {
+                $count = $this->get('app.services.users')->countByEmail($email);
+                if ($count > 0) {
                     $message = 'A user already exists with this e-mail address';
                     $form->get('email')->addError(new FormError($message));
                     throw new FormInvalidException($message);

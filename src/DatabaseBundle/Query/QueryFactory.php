@@ -27,4 +27,13 @@ class QueryFactory
         );
         return $query;
     }
+
+    public function createUsersQuery()
+    {
+        $query = new UsersQuery(
+            $this->entityManager,
+            $this->mapperFactory
+        );
+        return $query;
+    }
 }

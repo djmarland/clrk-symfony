@@ -16,7 +16,9 @@ class UsersService extends Service
     public function createNewUser(
         User $user
     ) {
-        $id = $this->insert($user);
+        $id = $this->getQueryFactory()
+            ->createUsersQuery()
+            ->insert($user);
         $user->setId(new ID($id));
         return $user;
     }
@@ -33,7 +35,7 @@ class UsersService extends Service
         // count them first (cheaper if zero)
         $count = $this->countAll();
         if ($count == 0) {
-            return $this->getEmptyResult();
+            return new ServiceResultEmpty();
         }
 
         // find the latest
@@ -44,33 +46,22 @@ class UsersService extends Service
 
     public function countAll()
     {
-        $entity = $this->getEntity('User');
-        $qb = $entity->createQueryBuilder('user');
-        $qb->select('count(user.id)');
-        $count = (int) $qb->getQuery()->getSingleScalarResult();
-        return $count;
+        return $this->getQueryFactory()
+            ->createUsersQuery()
+            ->count();
     }
 
     public function findLatest(
         $limit,
         $page = 1
     ) {
-        $offset = $this->calculateOffset($limit, $page);
-        $entity = $this->getEntity('User');
+        $users = $this->getQueryFactory()
+            ->createUsersQuery()
+            ->sortByCreationDate('DESC')
+            ->paginate($limit, $page)
+            ->get();
 
-        $sort = ['created_at' => 'DESC'];
-
-        $data = $entity->findBy(
-            [],
-            $sort,
-            $limit,
-            $offset
-        );
-
-        if (!$data) {
-            $data = array();
-        }
-        return $this->getResult($data);
+        return new ServiceResult($users);
     }
 
     /**
@@ -79,11 +70,14 @@ class UsersService extends Service
      */
     public function findById(ID $id)
     {
-        $entity = $this->getEntity('User')->findOneById((string) $id);
-        if ($entity) {
-            return $this->mapperFactory->getDomainModel($entity);
+        $result = $this->getQueryFactory()
+            ->createUsersQuery()
+            ->byId((string) $id)
+            ->get();
+        if ($result) {
+            return new ServiceResult($result);
         }
-        return null;
+        return new ServiceResultEmpty();
     }
 
     public function findByKey(Key $key)
@@ -98,13 +92,22 @@ class UsersService extends Service
      */
     public function findByEmail($email)
     {
-        $entity = $this->getEntity('User')
-            ->findOneBy([
-                'email' => $email
-            ]);
-        if ($entity) {
-            return $this->mapperFactory->getDomainModel($entity);
+        $result = $this->getQueryFactory()
+            ->createUsersQuery()
+            ->byEmail((string) $email)
+            ->get();
+        if ($result) {
+            return new ServiceResult($result);
         }
-        return null;
+        return new ServiceResultEmpty();
+    }
+
+    public function countByEmail($email)
+    {
+        $result = $this->getQueryFactory()
+            ->createUsersQuery()
+            ->byEmail((string) $email)
+            ->count();
+        return $result;
     }
 }
