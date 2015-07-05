@@ -1,13 +1,30 @@
 security:
 
     providers:
-        in_memory:
-            memory: ~
+         app_user_provider:
+              id: app.security.user_provider
 
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt|error)|css|images|js)/
             security: false
 
-        main:
+        login_firewall:
+            pattern:   ^/login$
             anonymous: ~
+
+        secured_area:
+            pattern:    ^/
+            simple_form:
+                login_path: login
+                check_path: login_check
+                provider: app_user_provider
+                authenticator: app.security.authenticator
+            logout:
+                path:   /logout
+                target: /
+
+    access_control:
+        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/, roles: ROLE_USER }
+

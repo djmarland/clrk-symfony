@@ -44,6 +44,7 @@ class Controller extends BaseController implements ControllerInterface
         $this->request = $request;
         $this->masterViewPresenter = new MasterPresenter();
         $this->getSettings();
+        $this->getCurrentUser();
     }
 
     private function getSettings()
@@ -67,6 +68,17 @@ class Controller extends BaseController implements ControllerInterface
 
         $this->settings = $settings;
         $this->toView('settings', $settings);
+    }
+
+    private function getCurrentUser()
+    {
+        $userEmail = $this->get('security.token_storage')->getToken()->getUser();
+        $visitor = null;
+        if ($userEmail) {
+            $result = $this->get('app.services.users')->findByEmail($userEmail);
+            $visitor = $result->getDomainModel();
+        }
+        $this->toView('visitor', $visitor);
     }
 
     protected function getCurrentPage()

@@ -18,6 +18,7 @@ class Password
 
         // generate digest, and never store the original password
         $this->digest = password_hash($plainText, PASSWORD_DEFAULT);
+        unset($plainText); // even remove it from memory
     }
 
     /**

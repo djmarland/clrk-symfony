@@ -9,24 +9,27 @@
 <body>
 {% block header %}
     <div class="header">{{ settings.applicationName }}</div>
-<hr />
-    <div>Hello</div>
-    <nav>
-        <ul>
-            <li><a href="{{ path('home') }}">Home</a></li>
-        </ul>
-    </nav>
-<hr />
-{% for flashMessage in app.session.flashbag.get('success') %}
-    <div class="messages__msg--success">
-        {{ flashMessage }}
+    <hr />
+        <div>
+            Hello <a href="{{ path('users_show', { user_key : visitor.key }) }}">{{ visitor.name }}</a> |
+            <a href="{{ path('logout') }}">Logout</a>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="{{ path('home') }}">Home</a></li>
+            </ul>
+        </nav>
+    <hr />
+    {% for flashMessage in app.session.flashbag.get('success') %}
+        <div class="messages__msg--success">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+    <div class="content">
+{% endblock %}
+{% block body %}{% endblock %}
+{% block footer %}
     </div>
-{% endfor %}
-<div class="content">
-    {% endblock %}
-    {% block body %}{% endblock %}
-    {% block footer %}
-</div>
 {% endblock %}
 </body>
 </html>

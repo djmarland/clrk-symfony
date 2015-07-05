@@ -23,6 +23,9 @@ class User extends Entity
     private $is_admin;
 
     /** @ORM\Column(type="boolean") */
+    private $is_active;
+
+    /** @ORM\Column(type="boolean") */
     private $password_expired;
 
     /** Getters/Setters */
@@ -62,6 +65,16 @@ class User extends Entity
     }
 
     public function setIsAdmin($bool)
+    {
+        $this->is_admin = $bool;
+    }
+
+    public function getIsActive()
+    {
+        return $this->is_admin;
+    }
+
+    public function setIsActive($bool)
     {
         $this->is_admin = $bool;
     }

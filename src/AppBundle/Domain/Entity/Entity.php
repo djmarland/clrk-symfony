@@ -33,7 +33,7 @@ abstract class Entity
     /**
      * @var string
      */
-    private $id;
+    protected $id;
 
     /**
      * @return string
@@ -70,7 +70,7 @@ abstract class Entity
     /**
      * @var \DateTime
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
      * @return \DateTime
@@ -83,7 +83,7 @@ abstract class Entity
     /**
      * @var \DateTime
      */
-    private $updatedAt;
+    protected $updatedAt;
 
     /**
      * @return \DateTime
@@ -93,7 +93,7 @@ abstract class Entity
         return $this->updatedAt;
     }
 
-    private $key;
+    protected $key;
 
     /**
      * @return Key
@@ -109,7 +109,7 @@ abstract class Entity
     /**
      * @var \DatabaseBundle\Entity\Entity
      */
-    private $ormEntity;
+    protected $ormEntity;
 
     /**
      * @param \DatabaseBundle\Entity\Entity $ormEntity

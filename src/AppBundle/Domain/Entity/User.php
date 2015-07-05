@@ -6,13 +6,14 @@ use AppBundle\Domain\ValueObject\Email;
 use AppBundle\Domain\ValueObject\ID;
 use AppBundle\Domain\ValueObject\Password;
 use DateTime;
+use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Class User
  * For describe users of the system
  */
-class User extends Entity implements UserInterface
+class User extends Entity implements UserInterface, \Serializable, EquatableInterface
 {
     const KEY_PREFIX = 'U';
 
@@ -24,6 +25,7 @@ class User extends Entity implements UserInterface
      * @param Email $email
      * @param $passwordDigest
      * @param bool $passwordExpired
+     * @param bool $isActive
      * @param bool $isAdmin
      */
     public function __construct(
@@ -34,6 +36,7 @@ class User extends Entity implements UserInterface
         Email $email,
         $passwordDigest,
         $passwordExpired = false,
+        $isActive = false,
         $isAdmin = false
     ) {
         parent::__construct(
@@ -46,6 +49,8 @@ class User extends Entity implements UserInterface
         $this->email = $email;
         $this->passwordExpired = $passwordExpired;
         $this->passwordDigest = $passwordDigest;
+        $this->isActive = $isActive;
+        $this->isAdmin = $isAdmin;
     }
 
     /**
@@ -115,7 +120,7 @@ class User extends Entity implements UserInterface
         $this->passwordDigest = $newPassword;
     }
 
-    /*
+
     public function passwordMatches($match)
     {
         $matches =  password_verify($match, $this->passwordDigest);
@@ -127,7 +132,6 @@ class User extends Entity implements UserInterface
        // }
         return $matches;
     }
-    */
 
     /**
      * @var boolean
@@ -150,6 +154,31 @@ class User extends Entity implements UserInterface
     public function renewPassword()
     {
         $this->passwordExpired = false;
+    }
+
+    /**
+     * @var boolean
+     */
+    private $isActive = false;
+
+    /**
+     * @return boolean
+     */
+    public function isActive()
+    {
+        return $this->isActive;
+    }
+
+    public function activate()
+    {
+        $this->isActive = true;
+        $this->updated();
+    }
+
+    public function deactivate()
+    {
+        $this->isActive = false;
+        $this->updated();
     }
 
     /**
@@ -195,7 +224,8 @@ class User extends Entity implements UserInterface
 
     public function getRoles()
     {
-        return []; // no roles yet
+        // @todo - more roles
+        return array('ROLE_USER');
     }
 
     public function eraseCredentials()
@@ -204,6 +234,34 @@ class User extends Entity implements UserInterface
 
     public function isEqualTo(UserInterface $user)
     {
-        return ($this->getUsername() == $user->getUsername());
+        die('sdgad');
+        // @todo - compare more things to check it's correct
+        return ((string) $this->getId() == (string) $user->getId());
+    }
+
+    /**
+     * @return string
+     */
+    public function serialize()
+    {
+        die('serial');
+        return serialize(array(
+            $this->id,
+            $this->email,
+            $this->passwordDigest
+        ));
+    }
+
+    /**
+     * @param string $serialized
+     */
+    public function unserialize($serialized)
+    {
+        die('unser');
+        list (
+            $this->id,
+            $this->username,
+            $this->passwordDigest
+            ) = unserialize($serialized);
     }
 }
