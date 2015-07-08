@@ -20,7 +20,7 @@ class UsersController extends Controller
 {
     public function listAction()
     {
-        $perPage = 2;
+        $perPage = 50;
         $currentPage = $this->getCurrentPage();
 
         $result = $this->get('app.services.users')
