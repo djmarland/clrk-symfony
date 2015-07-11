@@ -20,6 +20,7 @@ security:
                 check_path: login_check
                 provider: app_user_provider
                 authenticator: app.security.authenticator
+                csrf_provider: form.csrf_provider
             logout:
                 path:   logout
                 target: home
