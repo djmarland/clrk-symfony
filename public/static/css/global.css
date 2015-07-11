@@ -206,3 +206,65 @@ body {
 .intro {
     position: relative;
 }
+
+.alerts {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.form__errors {
+    margin-bottom: 20px;
+}
+
+.alert {
+    padding: 15px;
+    margin-bottom: 20px;
+    color: #fff;
+    color: rgba(255,255,255,.84);
+    background-color: #ff5722;
+}
+.alert--danger {
+    background-color: #f44336;
+}
+.alert--success {
+    background-color: #4caf50;
+}
+.alert-info {
+    background-color: #03a9f4;
+}
+.alert:last-child {
+    margin-bottom: 0;
+}
+
+.mdl-button--fab {
+   box-shadow: 0 16px 24px 2px rgba(0,0,0,.14),0 6px 30px 5px rgba(0,0,0,.12),0 8px 10px -5px rgba(0,0,0,.2)
+}
+.mdl-textfield {
+    width: 100%;
+}
+.mdl-textfield--search {
+    width: 300px;
+}
+
+.alert .material-icons {
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+.login-logo {
+    background-color: rgb(38, 50, 56);
+    padding: 8px 0;
+}
+.logo-area {
+    margin: 0 auto;
+    max-width: 240px;
+}
+
+.page-login {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.login-panel {
+    max-width: 420px;
+}

@@ -23,30 +23,28 @@ class UserProvider implements UserProviderInterface
 
         $user = $result->getDomainModel();
 
-        if (null === $user) {
-            $message = sprintf(
-                'Unable to find an active admin AppBundle:User object identified by "%s".',
-                $email
-            );
-            throw new UsernameNotFoundException($message);
+        if (!$user) {
+            throw new UsernameNotFoundException('No such user');
         }
 
-        return $user;
+        $visitor = new Visitor($user);
+
+        return $visitor;
     }
 
-    public function refreshUser(UserInterface $user)
+    public function refreshUser(UserInterface $visitor)
     {
-        if (!$user instanceof User) {
+        if (!$visitor instanceof Visitor) {
             throw new UnsupportedUserException(
-                sprintf('Instances of "%s" are not supported.', get_class($user))
+                sprintf('Instances of "%s" are not supported.', get_class($visitor))
             );
         }
 
-        return $this->loadUserByUsername((string) $user->getEmail());
+        return $this->loadUserByUsername((string) $visitor->getEmail());
     }
 
     public function supportsClass($class)
     {
-        return $class === 'App\Domain\Entity\User';
+        return $class === 'App\Security\Visitor';
     }
 }

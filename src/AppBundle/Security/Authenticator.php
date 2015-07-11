@@ -14,19 +14,19 @@ class Authenticator implements SimpleFormAuthenticatorInterface
     public function authenticateToken(TokenInterface $token, UserProviderInterface $userProvider, $providerKey)
     {
         try {
-            $user = $userProvider->loadUserByUsername($token->getUsername());
+            $visitor = $userProvider->loadUserByUsername($token->getUsername());
         } catch (UsernameNotFoundException $e) {
             throw new AuthenticationException('Invalid username or password');
         }
 
-        $passwordValid = $user->passwordMatches($token->getCredentials());
+        $passwordValid = $visitor->passwordMatches($token->getCredentials());
 
         if ($passwordValid) {
             return new UsernamePasswordToken(
-                (string) $user->getEmail(),
-                (string) $user->getPassword(),
+                $visitor->getUsername(),
+                $visitor->getPassword(),
                 $providerKey,
-                $user->getRoles()
+                $visitor->getRoles()
             );
         }
 

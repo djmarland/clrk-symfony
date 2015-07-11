@@ -6,14 +6,12 @@ use AppBundle\Domain\ValueObject\Email;
 use AppBundle\Domain\ValueObject\ID;
 use AppBundle\Domain\ValueObject\Password;
 use DateTime;
-use Symfony\Component\Security\Core\User\EquatableInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * Class User
  * For describe users of the system
  */
-class User extends Entity implements UserInterface, \Serializable, EquatableInterface
+class User extends Entity
 {
     const KEY_PREFIX = 'U';
 
@@ -36,7 +34,7 @@ class User extends Entity implements UserInterface, \Serializable, EquatableInte
         Email $email,
         $passwordDigest,
         $passwordExpired = false,
-        $isActive = false,
+        $isActive = true,
         $isAdmin = false
     ) {
         parent::__construct(
@@ -90,7 +88,7 @@ class User extends Entity implements UserInterface, \Serializable, EquatableInte
 
     public function setEmail(Email $email)
     {
-        if ((string) $email != (string) $this->email) {
+        if ((string)$email != (string)$this->email) {
             // @todo - validate not empty
 
             // @todo - reset the user to unconfirmed
@@ -120,16 +118,9 @@ class User extends Entity implements UserInterface, \Serializable, EquatableInte
         $this->passwordDigest = $newPassword;
     }
 
-
     public function passwordMatches($match)
     {
-        $matches =  password_verify($match, $this->passwordDigest);
-       // if ($matches && password_needs_rehash($this->passwordDigest, PASSWORD_DEFAULT)) {
-            //$password = new Password($match);
-            //$this->setPasswordDigest($password);
-            // @todo - save this'll need to move into the login controller to work
-        // as it needs access to the service
-       // }
+        $matches = password_verify($match, $this->passwordDigest);
         return $matches;
     }
 
@@ -159,7 +150,7 @@ class User extends Entity implements UserInterface, \Serializable, EquatableInte
     /**
      * @var boolean
      */
-    private $isActive = false;
+    private $isActive = true;
 
     /**
      * @return boolean
@@ -204,64 +195,5 @@ class User extends Entity implements UserInterface, \Serializable, EquatableInte
     {
         $this->isAdmin = false;
         $this->updated();
-    }
-
-
-    public function getUsername()
-    {
-        return (string) $this->getEmail();
-    }
-
-    public function getPassword()
-    {
-        return (string) $this->getPasswordDigest();
-    }
-
-    public function getSalt()
-    {
-        return null; // no salt
-    }
-
-    public function getRoles()
-    {
-        // @todo - more roles
-        return array('ROLE_USER');
-    }
-
-    public function eraseCredentials()
-    {
-    }
-
-    public function isEqualTo(UserInterface $user)
-    {
-        die('sdgad');
-        // @todo - compare more things to check it's correct
-        return ((string) $this->getId() == (string) $user->getId());
-    }
-
-    /**
-     * @return string
-     */
-    public function serialize()
-    {
-        die('serial');
-        return serialize(array(
-            $this->id,
-            $this->email,
-            $this->passwordDigest
-        ));
-    }
-
-    /**
-     * @param string $serialized
-     */
-    public function unserialize($serialized)
-    {
-        die('unser');
-        list (
-            $this->id,
-            $this->username,
-            $this->passwordDigest
-            ) = unserialize($serialized);
     }
 }

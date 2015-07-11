@@ -21,8 +21,13 @@ security:
                 provider: app_user_provider
                 authenticator: app.security.authenticator
             logout:
-                path:   /logout
-                target: /
+                path:   logout
+                target: home
+            remember_me:
+                key:      "%secret%"
+                lifetime: 3600 # 1 hour in seconds
+                path:     /
+                always_remember_me: true
 
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }

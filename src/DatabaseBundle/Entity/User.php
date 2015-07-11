@@ -71,12 +71,12 @@ class User extends Entity
 
     public function getIsActive()
     {
-        return $this->is_admin;
+        return $this->is_active;
     }
 
     public function setIsActive($bool)
     {
-        $this->is_admin = $bool;
+        $this->is_active = $bool;
     }
 
     public function getPasswordExpired()

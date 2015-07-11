@@ -28,6 +28,7 @@ framework:
     session:
         # handler_id set to null will use default session handler from php.ini
         handler_id:  ~
+        name: CLRK_SESSION_IDENTITY
     fragments:       ~
     http_method_override: true
 
@@ -35,6 +36,8 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    form_themes:
+        - 'AppBundle:forms:fields.html.twig'
     paths:
             "%kernel.root_dir%/../src/AppBundle/Presenter": AppBundle/Presenter
 

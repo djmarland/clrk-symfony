@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="/static/css/material.min.css" />
     <link rel="stylesheet" href="/static/css/global.css" />
 </head>
-<body>
+<body class="{% block bodyClass %}{% endblock %}">
 {% block header %}
 <div class="mdl-layout__container">
 <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
@@ -21,7 +21,7 @@
                 {% block crumb %}{% endblock %}
             </span>
             <div class="mdl-layout-spacer"></div>
-            <div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+            <div class="mdl-textfield mdl-textfield--search mdl-js-textfield mdl-textfield--expandable">
                 <label class="mdl-button mdl-js-button mdl-button--icon" for="search">
                     <i class="material-icons">search</i>
                 </label>
@@ -85,11 +85,15 @@
     <main class="mdl-layout__content mdl-color--grey-100">
         <div class="mdl-grid demo-content">
 
-    {% for flashMessage in app.session.flashbag.get('success') %}
-        <div class="messages__msg--success">
-            {{ flashMessage }}
+    {% if app.session.flashbag.get('success') %}
+        <div class="mdl-shadow--2dp mdl-color--white mdl-cell mdl-cell--12-col">
+            {% for flashMessage in app.session.flashbag.get('success') %}
+                <div class="alert alert--success">
+                    <i class="material-icons">done</i>{{ flashMessage }}
+                </div>
+            {% endfor %}
         </div>
-    {% endfor %}
+    {% endif %}
 {% endblock %}
 {% block body %}{% endblock %}
 {% block footer %}

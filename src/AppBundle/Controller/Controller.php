@@ -74,7 +74,7 @@ class Controller extends BaseController implements ControllerInterface
     {
         $userEmail = $this->get('security.token_storage')->getToken()->getUser();
         $visitor = null;
-        if ($userEmail) {
+        if ($userEmail && $userEmail != 'anon.') {
             $result = $this->get('app.services.users')->findByEmail($userEmail);
             $visitor = $result->getDomainModel();
         }

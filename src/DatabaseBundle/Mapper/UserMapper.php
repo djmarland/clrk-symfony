@@ -24,6 +24,7 @@ class UserMapper extends Mapper
             $item->getName(),
             $email,
             $item->getPasswordDigest(),
+            $item->getIsActive(),
             $item->getIsAdmin()
         );
 
@@ -41,6 +42,7 @@ class UserMapper extends Mapper
 
         $entity->setName($domain->getName());
         $entity->setEmail((string) $domain->getEmail());
+        $entity->setIsActive($domain->isActive());
         $entity->setIsAdmin($domain->isAdmin());
         $entity->setPasswordExpired($domain->passwordHasExpired());
         $entity->setPasswordDigest($domain->getPasswordDigest());

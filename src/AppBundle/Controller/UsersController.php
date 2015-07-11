@@ -53,6 +53,11 @@ class UsersController extends Controller
         return $this->renderTemplate('users:show');
     }
 
+    public function changePassword(Request $request)
+    {
+        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+    }
+
     public function newAction(Request $request)
     {
         $form = $this->createForm(new Create());
