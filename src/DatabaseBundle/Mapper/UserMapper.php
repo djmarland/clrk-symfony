@@ -45,7 +45,7 @@ class UserMapper extends Mapper
         $entity->setIsActive($domain->isActive());
         $entity->setIsAdmin($domain->isAdmin());
         $entity->setPasswordExpired($domain->passwordHasExpired());
-        $entity->setPasswordDigest($domain->getPasswordDigest());
+        $entity->setPasswordDigest((string) $domain->getPasswordDigest());
 
         return $entity;
     }

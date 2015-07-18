@@ -1,8 +1,12 @@
 security:
 
+    encoders:
+         AppBundle\Security\Visitor:
+            id: app.security.encoder
+
     providers:
-         app_user_provider:
-              id: app.security.user_provider
+        app_user_provider:
+            id: app.security.user_provider
 
     firewalls:
         dev:
@@ -15,22 +19,21 @@ security:
 
         secured_area:
             pattern:    ^/
-            simple_form:
+            form_login:
                 login_path: login
                 check_path: login_check
+                csrf_provider: security.csrf.token_manager
                 provider: app_user_provider
-                authenticator: app.security.authenticator
-                csrf_provider: form.csrf_provider
             logout:
                 path:   logout
                 target: home
             remember_me:
                 key:      "%secret%"
-                lifetime: 3600 # 1 hour in seconds
+                lifetime: 9.46708e8 # 30 years
                 path:     /
                 always_remember_me: true
 
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/, roles: ROLE_USER }
+        - { path: ^/, roles:  IS_AUTHENTICATED_REMEMBERED }
 

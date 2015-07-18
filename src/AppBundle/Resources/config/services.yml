@@ -5,8 +5,8 @@ services:
       tags:
           - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
 
-  app.security.authenticator:
-        class: AppBundle\Security\Authenticator
+  app.security.encoder:
+      class: AppBundle\Security\Encoder
 
   app.security.user_provider:
       class: AppBundle\Security\UserProvider

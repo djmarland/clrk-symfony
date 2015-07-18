@@ -5,6 +5,7 @@ namespace AppBundle\Domain\Entity;
 use AppBundle\Domain\ValueObject\Email;
 use AppBundle\Domain\ValueObject\ID;
 use AppBundle\Domain\ValueObject\Password;
+use AppBundle\Domain\ValueObject\PasswordDigest;
 use DateTime;
 
 /**
@@ -98,12 +99,12 @@ class User extends Entity
     }
 
     /**
-     * @var integer
+     * @var PasswordDigest
      */
     private $passwordDigest;
 
     /**
-     * @return integer
+     * @return PasswordDigest
      */
     public function getPasswordDigest()
     {
@@ -115,13 +116,13 @@ class User extends Entity
      */
     public function setPasswordDigest($newPassword)
     {
-        $this->passwordDigest = $newPassword;
+        $password = new Password($newPassword);
+        $this->passwordDigest = $password->getDigest();
     }
 
     public function passwordMatches($match)
     {
-        $matches = password_verify($match, $this->passwordDigest);
-        return $matches;
+        return $this->getPasswordDigest()->matches($match);
     }
 
     /**

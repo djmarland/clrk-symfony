@@ -26,4 +26,14 @@ class SecurityController extends Controller
 
         return $this->renderTemplate('security:login');
     }
+
+    public function resetPasswordAction(Request $request)
+    {
+
+    }
+
+    public function setPasswordAction(Request $request)
+    {
+
+    }
 }

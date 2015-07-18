@@ -28,7 +28,6 @@ class UserProvider implements UserProviderInterface
         }
 
         $visitor = new Visitor($user);
-
         return $visitor;
     }
 
@@ -40,11 +39,11 @@ class UserProvider implements UserProviderInterface
             );
         }
 
-        return $this->loadUserByUsername((string) $visitor->getEmail());
+        return $this->loadUserByUsername((string) $visitor->getUsername());
     }
 
     public function supportsClass($class)
     {
-        return $class === 'App\Security\Visitor';
+        return $class === 'AppBundle\Security\Visitor';
     }
 }

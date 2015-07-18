@@ -17,7 +17,8 @@ class Password
         $this->validate($plainText);
 
         // generate digest, and never store the original password
-        $this->digest = password_hash($plainText, PASSWORD_DEFAULT);
+        $digest = password_hash($plainText, PASSWORD_DEFAULT);
+        $this->digest = new PasswordDigest($digest);
         unset($plainText); // even remove it from memory
     }
 

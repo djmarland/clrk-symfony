@@ -4,6 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Presenter\MasterPresenter;
 use AppBundle\Presenter\Organism\Pagination\PaginationPresenter;
+use AppBundle\Security\Visitor;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller as BaseController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -72,10 +73,12 @@ class Controller extends BaseController implements ControllerInterface
 
     private function getCurrentUser()
     {
-        $userEmail = $this->get('security.token_storage')->getToken()->getUser();
+        $user = $this->get('security.token_storage')
+                            ->getToken()
+                            ->getUser();
         $visitor = null;
-        if ($userEmail && $userEmail != 'anon.') {
-            $result = $this->get('app.services.users')->findByEmail($userEmail);
+        if ($user instanceof Visitor) {
+            $result = $this->get('app.services.users')->findByEmail($user->getUsername());
             $visitor = $result->getDomainModel();
         }
         $this->toView('visitor', $visitor);
