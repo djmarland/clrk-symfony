@@ -260,11 +260,16 @@ body {
     max-width: 240px;
 }
 
-.page-login {
+.page-login, .page-reset-password {
     display: flex;
     align-items: center;
     justify-content: center;
 }
 .login-panel {
-    max-width: 420px;
+    max-width: 468px;
+}
+
+.mdl-button .material-icons {
+    vertical-align: middle;
+    margin-top: -2px;
 }

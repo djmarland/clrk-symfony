@@ -8,11 +8,11 @@ login:
 
 reset_password:
     path:     /reset-password
-    defaults: { _controller: AppBundle:Security:reset-password }
+    defaults: { _controller: AppBundle:Security:resetPassword }
 
 reset_password:
     path:     /set-password
-    defaults: { _controller: AppBundle:Security:set-password }
+    defaults: { _controller: AppBundle:Security:setPassword }
 
 login_check:
     path: /login-check

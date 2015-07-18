@@ -14,7 +14,7 @@ security:
             security: false
 
         login_firewall:
-            pattern:   ^/login$
+            pattern:   ^/(login|reset-password)$
             anonymous: ~
 
         secured_area:
@@ -34,6 +34,6 @@ security:
                 always_remember_me: true
 
     access_control:
-        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/(login|reset-password), roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/, roles:  IS_AUTHENTICATED_REMEMBERED }
 
